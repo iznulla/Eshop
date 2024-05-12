@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240512_01
+      author: iznullaaskarov@gmail.com
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: 'gen_random_uuid()'
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: login
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: phone_number
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: 'gen_random_uuid()'
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users_role
+            columns:
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_role_id
+                    references: role(id)
+                    nullable: false
+
+#  id uuid unique [primary key]
+#  username varchar(20) [not null, unique]
+#  phone_number varchar(20) [not null, unique]
+#  password varchar(50) [not null]
+#  role roles [not null]
+#  created_at timestamp [default: `now()`]
+#  updated_at timestamp
+#  deleted_at timestamp
